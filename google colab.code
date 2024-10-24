@@ -2,7 +2,6 @@
 import os
 HOME=os.getcwd() print(HOME) 
 
-
 //Install and import ultralytics:
 !pip install ultralytics==8.0.196
 
