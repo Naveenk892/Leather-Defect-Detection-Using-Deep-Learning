@@ -1,0 +1,31 @@
+//Google colab code of finding working directory:
+import os
+HOME=os.getcwd() print(HOME)
+
+//Install and import ultralytics:
+!pip install ultralytics==8.0.196
+
+from IPython import display
+display.clear_output() 
+import ultralytics 
+ultralytics.checks()
+
+//Extracting the dataset from Roboflow:
+!pip install roboflow
+
+from roboflow import Roboflow
+rf = Roboflow(api_key="smjfXTOGc7qvNH8U8aZt")
+project = rf.workspace("nk-ecknw").project("leather-defect-xun4g")
+version = project.version(7)
+dataset = version.download("yolov8")
+
+
+//Training the dataset for the leather detect detection using objectdetection and segmentation:
+!yolo task=detect mode=train model=yolov8s.pt data={dataset.location}/data.yaml 
+epochs=25 imgsz=640 plots=True
+
+//Assigning task for given input(i.e. detecting defect in leather for given image or video):
+!yolo task=detect mode=predict model={HOME}/runs/detect/train/weights/best.pt 
+conf=0.25 source=/content/LEATHER-DEFECT 7/train/images/002_png_jpg.rf.4d17c359019c7c41332afaf61ab955da.jpg save=True
+
+
